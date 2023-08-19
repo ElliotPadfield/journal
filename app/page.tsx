@@ -22,7 +22,7 @@ export default async function Home() {
                 <p className='text-red-500 mt-6 text-xs border rounded-full border-red-500 p-2 bg-red-50 font-semibold mx-auto'>
                   This is an early proof of concept. Inaccurate or dangerous
                   responses may be generated.
-                  {JSON.stringify(user)}
+               
                 </p>
                 <h3 className='text-4xl mt-6 font-semibold text-gray-800'>
                   Welcome to your journal

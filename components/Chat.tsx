@@ -114,8 +114,9 @@ const Chat = ({ user }: {user: any}) => {
           Send
         </button>
       </div>
-      <EndSaveButton handleSave={() => handleSave()} />
-      {typeof handleSave}
+      {(user) ? <EndSaveButton handleSave={() => handleSave()} /> : null}
+      
+      
     </>
   );
 };
