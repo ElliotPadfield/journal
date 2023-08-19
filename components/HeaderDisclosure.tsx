@@ -11,7 +11,11 @@ function classNames(...classes: String[]) {
   return classes.filter(Boolean).join(' ');
 }
 const HeaderDisclosure = ({ session }: { session: any }) => {
-  const user = session.session.user;
+  let user: any;
+
+  if (session?.session?.user) {
+    user = session?.session?.user;
+  }
   return (
     <Disclosure
       as='nav'
@@ -19,6 +23,7 @@ const HeaderDisclosure = ({ session }: { session: any }) => {
     >
       {({ open }) => (
         <>
+          {JSON.stringify(user)}
           <div className='mx-auto max-w-7xl px-2 sm:px-4 lg:px-8'>
             <div className='relative flex h-16 items-center justify-between lg:border-b lg:border-teal-400 lg:border-opacity-25'>
               <div className='flex items-center px-2 lg:px-0'>
