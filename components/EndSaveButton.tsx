@@ -1,7 +1,7 @@
 'use client'
 
 
-const EndSaveButton = ({handleSave}) => {
+const EndSaveButton = ({handleSave}: {handleSave: Function}) => {
 
   return (
     <button onClick={() => handleSave()} >EndSaveButton </button>

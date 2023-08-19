@@ -10,8 +10,8 @@ const navigation = [
 function classNames(...classes: String[]) {
   return classes.filter(Boolean).join(' ');
 }
-const HeaderDisclosure = ({ session }) => {
-  const user = session.session.user
+const HeaderDisclosure = ({ session }: { session: any }) => {
+  const user = session.session.user;
   return (
     <Disclosure
       as='nav'

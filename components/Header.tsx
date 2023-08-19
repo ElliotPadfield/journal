@@ -3,11 +3,12 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { cookies } from 'next/headers';
 import HeaderDisclosure from './HeaderDisclosure';
+import { Database } from '@/types';
 
 
 
 const Header = async () => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
   const {data: session} = await supabase.auth.getSession()
   return (
     <div className='bg-teal-500 pb-32'>

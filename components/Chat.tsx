@@ -6,10 +6,13 @@ interface Message {
   content: string;
 }
 
+
 import { useRouter } from 'next/navigation';
 import EndSaveButton from './EndSaveButton';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-const Chat = ({ user }) => {
+import { Database } from '@/types';
+import { Json } from '../types';
+const Chat = ({ user }: {user: any}) => {
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
   const [chatMessages, setChatMessages] = useState<Message[]>([
@@ -25,12 +28,12 @@ const Chat = ({ user }) => {
     setInputValue(event.target.value);
   };
 
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const handleSave = async () => {
     console.log(`Clicked: ${JSON.stringify(user)}`);
     const { data, error } = await supabase
       .from('chats')
-      .insert([{ chat_log: chatMessages, user_id: user.id }])
+      .insert([{ chat_log: JSON.stringify(chatMessages), user_id: user.id }])
       .select();
     if (!error) {
       return data;
