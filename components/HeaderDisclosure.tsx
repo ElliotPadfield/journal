@@ -1,21 +1,25 @@
 'use client';
-import { Disclosure, Menu } from '@headlessui/react';
+import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Session } from '@supabase/supabase-js';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navigation = [
-  { name: 'Chat', href: '#', current: true },
-  { name: 'My Journals', href: '#', current: false },
+  { name: 'Chat', href: '/', current: true },
+  { name: 'My Journals', href: '/journal', current: false },
+  { name: 'Account', href: '/account', current: false}
 ];
 
 function classNames(...classes: String[]) {
   return classes.filter(Boolean).join(' ');
 }
-const HeaderDisclosure = ({ session }: { session: any }) => {
-  let user: any;
+const HeaderDisclosure = ({ session}: { session: Session | null}) => {
+  const supabase = createClientComponentClient();
+  const pathname = usePathname()
 
-  if (session?.session?.user) {
-    user = session?.session?.user;
-  }
   return (
     <Disclosure
       as='nav'
@@ -23,16 +27,19 @@ const HeaderDisclosure = ({ session }: { session: any }) => {
     >
       {({ open }) => (
         <>
-          {JSON.stringify(user)}
           <div className='mx-auto max-w-7xl px-2 sm:px-4 lg:px-8'>
             <div className='relative flex h-16 items-center justify-between lg:border-b lg:border-teal-400 lg:border-opacity-25'>
               <div className='flex items-center px-2 lg:px-0'>
                 <div className='flex-shrink-0'>
-                  <img
-                    className='block h-8 w-8'
-                    src='https://tailwindui.com/img/logos/mark.svg?color=teal&shade=300'
-                    alt='Your Company'
-                  />
+                  <Link href='/'>
+                    <Image
+                      className='block h-8 w-8'
+                      src='https://tailwindui.com/img/logos/mark.svg?color=teal&shade=300'
+                      alt='Your Company'
+                      height={600}
+                      width={600}
+                    />
+                  </Link>
                 </div>
                 <div className='hidden lg:ml-10 lg:block'>
                   <div className='flex space-x-4'>
@@ -41,12 +48,12 @@ const HeaderDisclosure = ({ session }: { session: any }) => {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          (pathname == item.href)
                             ? 'bg-teal-700 text-white'
                             : 'text-white hover:bg-teal-500 hover:bg-opacity-75',
                           'rounded-md py-2 px-3 text-sm font-medium'
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={(pathname == item.href) ? 'page' : undefined}
                       >
                         {item.name}
                       </a>
@@ -67,12 +74,24 @@ const HeaderDisclosure = ({ session }: { session: any }) => {
                 </Disclosure.Button>
               </div>
               <div>
-                {user ? (
-                  user.email
+                {session ? (
+                  <>
+                    <span className='text-white font-medium'>
+                      {session.user.email}{' '}
+                      <button
+                        onClick={() => supabase.auth.signOut()}
+                        className='hover:text-lime-300 hover:underline'
+                      >
+                        (Sign Out)
+                      </button>
+                    </span>
+                  </>
                 ) : (
-                  <button className='rounded bg-blue-500 py-1 px-3 text-gray-50 font-semibold'>
-                    Log In
-                  </button>
+                  <Link href='/auth'>
+                    <button className='rounded bg-blue-500 py-1 px-3 text-gray-50 font-semibold'>
+                      Log In
+                    </button>
+                  </Link>
                 )}
               </div>
             </div>

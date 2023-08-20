@@ -6,13 +6,11 @@ interface Message {
   content: string;
 }
 
-
 import { useRouter } from 'next/navigation';
 import EndSaveButton from './EndSaveButton';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/types';
-import { Json } from '../types';
-const Chat = ({ user }: {user: any}) => {
+import { Database } from '@/lib/types';
+const Chat = ({ user }: { user: any }) => {
   const [inputValue, setInputValue] = useState('');
   const router = useRouter();
   const [chatMessages, setChatMessages] = useState<Message[]>([
@@ -72,7 +70,7 @@ const Chat = ({ user }: {user: any}) => {
 
   return (
     <>
-      <div className='rounded-xl border px-10 pb-5 '>
+      <div className='rounded-xl border px-10 pb-5 bg-white '>
         {chatMessages.map((message, index) => (
           <div
             key={index}
@@ -114,9 +112,14 @@ const Chat = ({ user }: {user: any}) => {
           Send
         </button>
       </div>
-      {(user) ? <EndSaveButton handleSave={() => handleSave()} /> : null}
-      
-      
+      {user ? (
+        <EndSaveButton handleSave={() => handleSave()} />
+      ) : (
+        <p className='text-gray-600 text-sm'>
+          To save your journal entries & explore previous entries using AI,
+          create an account.
+        </p>
+      )}
     </>
   );
 };

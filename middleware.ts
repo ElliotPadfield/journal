@@ -12,8 +12,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
   if (!user) {
-    if (request.nextUrl.pathname === '/account') {
-      return NextResponse.redirect(new URL('/account', request.url));
+    if (request.nextUrl.pathname === '/account' || request.nextUrl.pathname === '/journal') {
+
+      return NextResponse.redirect(new URL('/auth', request.url));
       // all protected routes here
     }
     if (request.nextUrl.pathname === '/api/generateQuestion') {

@@ -1,15 +1,13 @@
-
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { cookies } from 'next/headers';
 import HeaderDisclosure from './HeaderDisclosure';
-import { Database } from '@/types';
-
-
+import { Database } from '@/lib/types';
 
 const Header = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const {data: session} = await supabase.auth.getSession()
+  const supabase = createServerComponentClient({cookies})
+  const {data, error} = await supabase.auth.getSession()
+  const session = data.session
   return (
     <div className='bg-teal-500 pb-32'>
       <HeaderDisclosure session={session} />

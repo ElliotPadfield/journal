@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update-schema": "supabase gen types typescript --project-id \"kgwmadqidkauqlxvunua\" --schema public > lib/schema.ts && npx better-supabase-types -i lib/schema.ts -o lib/types.ts"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -19,6 +20,7 @@
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "^10.4.15",
+    "dayjs": "^1.11.9",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.18",
     "next": "13.4.18",
@@ -29,6 +31,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.4"
+    "@tailwindcss/forms": "^0.5.4",
+    "supabase": "^1.86.2"
   }
 }
